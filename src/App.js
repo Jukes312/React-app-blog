@@ -5,7 +5,7 @@ import PostPage from './PostPage';
 import About from './About';
 import Missing from './Missing';
 import EditPost from './EditPost';
-import { Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 
 
@@ -15,7 +15,7 @@ function App() {
 
 
   return (
-   
+   <Router>
     <Routes>
       <Route path="/" element={<Layout/>}>
         <Route index element={<Home/>} />
@@ -28,6 +28,7 @@ function App() {
         <Route path="*" element={<Missing />} />
         </Route>
       </Routes>
+  </Router>
     
   );
 }
