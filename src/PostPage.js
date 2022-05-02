@@ -1,8 +1,21 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useContext } from 'react';
 
-const PostPage = ({ posts, handleDelete }) => {
+import DataContext from './context/DataContext';
+
+const PostPage = () => {
+    const { posts, setPosts } = useContext(DataContext);
     const { id } = useParams();
+    const history = useNavigate();
     const post = posts.find(post => (post.id).toString() === id);
+
+    const handleDelete = (id) => {
+            const postsList = posts.filter(post => post.id !== id);
+            setPosts(postsList);
+            localStorage.setItem('posts',JSON.stringify(postsList))
+            history('/');
+    }
+
     return (
         <main className="PostPage">
             <article className="post">
@@ -11,7 +24,8 @@ const PostPage = ({ posts, handleDelete }) => {
                         <h2>{post.title}</h2>
                         <p className="postDate">{post.datetime}</p>
                         <p className="postBody">{post.body}</p>
-                        <button onClick={() => handleDelete(post.id)}>
+                        <Link to={`/edit/${post.id}`}><button className="editButton">Edit Post</button></Link>
+                        <button className="deleteButton" onClick={() => handleDelete(post.id)}>
                             Delete Post
                         </button>
                     </>
